@@ -16,6 +16,8 @@ public static class TestScenario
             ["simplePassword"] = SetupUser(password: "1234Password"),
             ["disabled"] = SetupUser(enabled: false, password: "1234Password"),
             ["wrongPassword"] = SetupUser(enabled: false, password: Guid.NewGuid().ToString()),
+            ["keyOnly"] = SetupUser(enabled: true, password: null, publicKeys: ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMZtYfj/7iUnf++hfSSiSPXB/WMtdMZZaXAzT7hd054C test@test.com"]),
+            ["keyAndPassword"] = SetupUser(enabled: true, password: "4321Password", publicKeys: ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMZtYfj/7iUnf++hfSSiSPXB/WMtdMZZaXAzT7hd054C test@test.com"]),
         };
         _default = setup.ToFrozenDictionary();
     }
