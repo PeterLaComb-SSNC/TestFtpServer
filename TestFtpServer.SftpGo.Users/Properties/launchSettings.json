@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TestFtpServer.SftpGo.Users": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:50301;http://localhost:50302"
+    }
+  }
+}
