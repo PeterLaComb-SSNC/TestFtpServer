@@ -50,8 +50,7 @@ jobs:
       run: dotnet pack \
         --configuration Release \
         TestFtpServer.SftpGo.Server/TestFtpServer.SftpGo.Server \
-        --output ${{ env.NuGetDirectory }} \
-        /p:Version=""
+        --output ${{ env.NuGetDirectory }}
 
     - name: Save Artifact
       uses: actions/upload-artifact@v4
