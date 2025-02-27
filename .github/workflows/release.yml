@@ -118,9 +118,7 @@ jobs:
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
       # If you retry a failed workflow, already published packages will be skipped without error.
       - name: Publish NuGet package
-        env:
-          NUGET_AUTH_KEY: ${{ secrets.NUGET_TOKEN }}
         run: |
           foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
-            dotnet nuget push $file --skip-duplicate --source github -k ${NUGET_AUTH_KEY}
+            dotnet nuget push $file --skip-duplicate --source github -k ${{ secrets.NUGET_TOKEN }}
           }
