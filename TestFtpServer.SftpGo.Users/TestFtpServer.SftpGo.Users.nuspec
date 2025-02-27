@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>TestFtpServer.SftpGo.Users</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!-- <icon>icon.png</icon> -->
+    <description>$description$</description>
+    <releaseNotes>
+    Initial Release of Aspire Component for SFTPGo Users
+    </releaseNotes>
+    <copyright>$copyright$</copyright>
+  </metadata>
+</package>

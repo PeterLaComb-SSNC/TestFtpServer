@@ -7,6 +7,29 @@
         <BuildWhat>$(BuildWhat)</BuildWhat>
     </PropertyGroup>
 
+
+    <PropertyGroup Condition="'$(BuildWhat)'=='Aspire'">
+        <Description>
+            This is a companion package for TestFtpServer.SftpGo.Server that
+            uses the `SFTPGO_DATA_PROVIDER__PRE_LOGIN_HOOK` configuration option
+            to automatically create users. A default set of users is included,
+            and additional users can be created by referencing a simple JSON file.
+        </Description>
+        <Authors>Peter T. LaComb Jr.</Authors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.MD</PackageReadmeFile>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <PackageTags>Aspire SFTPGo sftp ftp ssh testing automation</PackageTags>
+        <PackageProjectUrl>https://github.com/PeterLaComb-SSNC/TestFtpServer</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/PeterLaComb-SSNC/TestFtpServer</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <!-- Optional: Detect breaking changes from a previous version -->
+        <!-- <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion> -->
+    </PropertyGroup>
+
     <PropertyGroup Condition="'$(BuildWhat)'=='Aspire'">
         <BuildAspire>true</BuildAspire>
         <BuildContainer>false</BuildContainer>
@@ -17,6 +40,10 @@
         <BuildContainer>true</BuildContainer>
     </PropertyGroup>
 
+    <ItemGroup Condition="'$(BuildWhat)'=='Aspire'">
+        <None Include="README.MD" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
     <PropertyGroup Condition="'$(BuildWhat)'==''">
         <BuildAspire>true</BuildAspire>
         <BuildContainer>true</BuildContainer>
@@ -25,6 +52,11 @@
     <ItemGroup Condition="'$(BuildAspire)'=='True'">
         <PackageReference Include="Aspire.Hosting" Version="9.1.0" />
         <ProjectReference Include="..\TestFtpServer.SftpGo.Server\TestFtpServer.SftpGo.Server.csproj" />
+
+        <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup Condition="'$(BuildContainer)'=='True'">
@@ -39,17 +71,17 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(BuildAspire)'=='False'">
-      <Compile Remove="Aspire\**" />
-      <Content Remove="Aspire\**" />
-      <EmbeddedResource Remove="Aspire\**" />
-      <None Remove="Aspire\**" />
+        <Compile Remove="Aspire\**" />
+        <Content Remove="Aspire\**" />
+        <EmbeddedResource Remove="Aspire\**" />
+        <None Remove="Aspire\**" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(BuildContainer)'=='False'">
-      <Compile Remove="Container\**" />
-      <Content Remove="Container\**" />
-      <EmbeddedResource Remove="Container\**" />
-      <None Remove="Container\**" />
+        <Compile Remove="Container\**" />
+        <Content Remove="Container\**" />
+        <EmbeddedResource Remove="Container\**" />
+        <None Remove="Container\**" />
     </ItemGroup>
 
 </Project>

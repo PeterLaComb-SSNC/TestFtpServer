@@ -10,7 +10,7 @@ builder
         adminPassword: sftpAdminPassword
     )
     .WithUserRepository(
-        // scenarioFilePath: scenarioFilePath
+        scenarioFilePath: scenarioFilePath
     )
     ;
 

@@ -7,8 +7,37 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <Description>
+            TestFtpServer is a .NET Aspire component for SFTPGo Server that allows you to
+            quickly add and configure an SFTPGo server in your .NET Aspire application.
+        </Description>
+        <Authors>Peter T. LaComb Jr.</Authors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.MD</PackageReadmeFile>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <PackageTags>Aspire SFTPGo sftp ftp ssh testing automation</PackageTags>
+        <PackageProjectUrl>https://github.com/PeterLaComb-SSNC/TestFtpServer</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/PeterLaComb-SSNC/TestFtpServer</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <!-- Optional: Detect breaking changes from a previous version -->
+        <!-- <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion> -->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.MD" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="Aspire.Hosting" Version="9.1.0" />
+
+        <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
 </Project>

@@ -6,8 +6,21 @@ using TestFtpServer.SftpGo.Server;
 namespace Aspire.Hosting;
 #pragma warning restore IDE0130 // Namespace does not match folder structure
 
+/// <summary>
+/// A set of extensions to integrate this with .NET Aspire
+/// </summary>
 public static class SftpServerResourceExtensions
 {
+    /// <summary>
+    /// Adds an SFTPGo server
+    /// </summary>
+    /// <param name="builder">The application builder.</param>
+    /// <param name="name">Optional: Defaults to `SftpServer`.</param>
+    /// <param name="httpPort">Optional: Used to overide the HTTP port where the UI is presented.</param>
+    /// <param name="adminUser">Optional: 'admin' will be used when missing.</param>
+    /// <param name="adminPassword">Optional: If provided, the default admin will be created.</param>
+    /// <param name="version">Optional: Use to specify which version of the '' container image will be used. Defaults to <inheritdoc cref="TestFtpServer.SftpGo.Server.SftpServerContainerImageTags"/>.</param>
+    /// <returns>The application builder on which this method was invoked.</returns>
     public static IResourceBuilder<SftpServerResource> AddSftpServer(
         this IDistributedApplicationBuilder builder,
         string name = "SftpServer",
