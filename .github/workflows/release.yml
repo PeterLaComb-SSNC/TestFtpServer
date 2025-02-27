@@ -30,19 +30,19 @@ jobs:
       with:
         fetch-depth: 0
 
-    # - name: Determin Version
-    #   uses: wemogy/get-release-version-action@v4.3.2
-    #   id: get-release-version
-    #   with:
-    #     prefix: "v"
-    #     suffix: "NONE"
-    #     reference-version-suffix: "NONE"
-    #     bumping-suffix: "hotfix"
-    #     only-bump-suffix: "false"
-    #     create-tag: "true"
-    #     git-username: "Your User"
-    #     git-email: "you@example.com"
-    #     mode: "semantic"
+    - name: Determin Version
+      uses: wemogy/get-release-version-action@v4.3.2
+      id: get-release-version
+      with:
+        prefix: "v"
+        suffix: "NONE"
+        reference-version-suffix: "NONE"
+        bumping-suffix: "hotfix"
+        only-bump-suffix: "false"
+        create-tag: "true"
+        git-username: "Your User"
+        git-email: "you@example.com"
+        mode: "semantic"
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
