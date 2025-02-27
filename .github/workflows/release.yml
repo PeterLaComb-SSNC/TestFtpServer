@@ -40,8 +40,8 @@ jobs:
         bumping-suffix: "hotfix"
         only-bump-suffix: "false"
         create-tag: "true"
-        git-username: "Your User"
-        git-email: "you@example.com"
+        git-username: "PeterLaComb-SSNC"
+        git-email: "peter.lacomb@ssncinc.com"
         mode: "semantic"
 
     - name: Setup .NET
