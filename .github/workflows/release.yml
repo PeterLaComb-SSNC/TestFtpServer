@@ -119,6 +119,5 @@ jobs:
       - name: Publish NuGet package
         run: |
           foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
-              Write-Host $file
-              dotnet nuget push $file --skip-duplicate
-              }
+            dotnet nuget push $file --skip-duplicate --source github
+          }
