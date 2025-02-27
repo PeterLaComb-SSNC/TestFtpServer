@@ -7,12 +7,24 @@ using TestFtpServer.SftpGo.Users.Aspire;
 namespace Aspire.Hosting;
 #pragma warning restore IDE0130 // Namespace does not match folder structure
 
+/// <summary>
+/// A set of extensions to integrate this with .NET Aspire
+/// </summary>
 public static class SftpUsersResourceExtensions
 {
     private const string MountFileName = "SftpGoUsers.json";
     private const string MountDirectory = "/tmp/SftpGoUsers";
     private const string MountPath = $"{MountDirectory}/{MountFileName}";
 
+    /// <summary>
+    /// Adds users to the SFTPGo server via the `SFTPGO_DATA_PROVIDER__PRE_LOGIN_HOOK`
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="name"></param>
+    /// <param name="scenarioFilePath"></param>
+    /// <param name="httpPort"></param>
+    /// <param name="version"></param>
+    /// <returns></returns>
     public static IResourceBuilder<SftpServerResource> WithUserRepository(
         this IResourceBuilder<SftpServerResource> builder,
         string name = "SftpUsers",
