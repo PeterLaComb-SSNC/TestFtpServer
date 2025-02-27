@@ -21,8 +21,23 @@ defaults:
   run:
     shell: pwsh
 jobs:
+
+  run_test:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+
+    - name: Run tests
+      run: dotnet test --configuration Release
+
   build:
     runs-on: ubuntu-latest
+    needs: [ run_test ]
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -48,7 +63,7 @@ jobs:
 
     - name: Create the package
       run: |
-        dotnet pack --configuration Release TestFtpServer.SftpGo.Server/TestFtpServer.SftpGo.Server --output ${{ env.NuGetDirectory }}
+        dotnet pack --configuration Release ./TestFtpServer.SftpGo.Server/TestFtpServer.SftpGo.Server --output ${{ env.NuGetDirectory }}
 
     - name: Save Artifact
       uses: actions/upload-artifact@v4
@@ -83,19 +98,6 @@ jobs:
       # using the --excluded-rules or --excluded-rule-ids option
       - name: Validate package
         run: meziantou.validate-nuget-package (Get-ChildItem "${{ env.NuGetDirectory }}/*.nupkg") --excluded-rule-ids "32,52,119"
-
-  run_test:
-    runs-on: ubuntu-latest
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-
-    - name: Run tests
-      run: dotnet test --configuration Release
 
   deploy:
     # Publish only when creating a GitHub Release
