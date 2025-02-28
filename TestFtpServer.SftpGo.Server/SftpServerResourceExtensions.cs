@@ -27,6 +27,7 @@ public static class SftpServerResourceExtensions
         this IDistributedApplicationBuilder builder,
         string name = "SftpServer",
         int? httpPort = null,
+        int? sftpPort = null,
         IResourceBuilder<ParameterResource>? adminUser = null,
         IResourceBuilder<ParameterResource>? adminPassword = null,
         string version = SftpServerContainerImageTags.Tag
@@ -61,6 +62,7 @@ public static class SftpServerResourceExtensions
             )
             .WithEndpoint(
                 targetPort: 2022,
+                port: sftpPort,
                 name: SftpServerResource.SftpEndpointName
             )
             ;
