@@ -11,7 +11,8 @@ This project is a set of .NET Aspire resources for testing sFTP server connectio
 
 ## Building
 
-Tasks in the [`.vscode`](.vscode/) folder are configured to work with [podman desktop](https://podman-desktop.io/). With that installed, you should be able to launch with the default task.
+Tasks in the [`.vscode`](.vscode/) folder are configured to work with [podman desktop](https://podman-desktop.io/).
+With that installed, you should be able to launch with the default task.
 
 ## Release Notes
 
