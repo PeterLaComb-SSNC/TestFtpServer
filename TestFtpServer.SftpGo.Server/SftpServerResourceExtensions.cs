@@ -19,7 +19,9 @@ public static class SftpServerResourceExtensions
     /// <param name="httpPort">Optional: Used to overide the HTTP port where the UI is presented.</param>
     /// <param name="adminUser">Optional: 'admin' will be used when missing.</param>
     /// <param name="adminPassword">Optional: If provided, the default admin will be created.</param>
-    /// <param name="version">Optional: Use to specify which version of the '' container image will be used. Defaults to <inheritdoc cref="TestFtpServer.SftpGo.Server.SftpServerContainerImageTags"/>.</param>
+    /// <param name="version">Optional: Use to specify which version of the 
+    ///  <inheritdoc cref="SftpServerContainerImageTags.Image"/> container image will be used.
+    ///  Defaults to <inheritdoc cref="SftpServerContainerImageTags.Tag"/>.</param>
     /// <returns>The application builder on which this method was invoked.</returns>
     public static IResourceBuilder<SftpServerResource> AddSftpServer(
         this IDistributedApplicationBuilder builder,
@@ -38,10 +40,17 @@ public static class SftpServerResourceExtensions
             .WithImageTag(version ?? SftpServerContainerImageTags.Tag)
             .WithEnvironment(env =>
             {
-                if (adminUser is { } && adminPassword is { })
+                if (adminPassword is { })
                 {
                     env.EnvironmentVariables.Add("SFTPGO_DATA_PROVIDER__CREATE_DEFAULT_ADMIN", "1");
-                    env.EnvironmentVariables.Add("SFTPGO_DEFAULT_ADMIN_USERNAME", adminUser.Resource);
+                    if (adminUser is { })
+                    {
+                        env.EnvironmentVariables.Add("SFTPGO_DEFAULT_ADMIN_USERNAME", adminUser.Resource);
+                    }
+                    else
+                    {
+                        env.EnvironmentVariables.Add("SFTPGO_DEFAULT_ADMIN_USERNAME", "admin");
+                    }
                     env.EnvironmentVariables.Add("SFTPGO_DEFAULT_ADMIN_PASSWORD", adminPassword.Resource);
                 }
             })
