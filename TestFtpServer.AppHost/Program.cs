@@ -7,7 +7,9 @@ var scenarioFilePath = builder.AddParameter("userRepo");
 builder
     .AddSftpServer(
         adminUser: sftpAdminUser,
-        adminPassword: sftpAdminPassword
+        adminPassword: sftpAdminPassword,
+        sftpPort: 2022,
+        httpPort: 4040
     )
     .WithUserRepository(
         scenarioFilePath: scenarioFilePath

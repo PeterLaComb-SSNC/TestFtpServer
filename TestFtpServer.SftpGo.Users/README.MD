@@ -60,15 +60,15 @@ Each entry in this list is the *case-sensitive* user name, with details.
 
 ### Custom Users
 
-1. Create a JSON file
+1. Create a JSON file (Note: All properties are case-sensitive)
 
     ```json
     {
         /*
         "ScenarioName aka UserName": {
-            "Status": (1 = Enabled, 0 = Disabled),
-            "Password": ("whatever" or null),
-            "Permissions": {
+            "status": (1 = Enabled, 0 = Disabled),
+            "password": ("whatever" or null),
+            "permissions": {
                 "path": [(PermissionOption)]
                 // PermissionOption:
                 // * - All
@@ -94,7 +94,7 @@ Each entry in this list is the *case-sensitive* user name, with details.
             ]
         }
         */
-        "myTest": { "Status": "1", "Password": "password", "Permissions": { "/": ["*"]}}
+        "myTest": { "status": "1", "password": "password", "permissions": { "/": ["*"]}}
     }
     ```
 
@@ -127,3 +127,7 @@ Each entry in this list is the *case-sensitive* user name, with details.
 
 - v0.0.1:
   Initial Release of the SFTPGo Users component for .NET Aspire
+
+## TODO
+
+- Add API endpoint(s) for user CRUD

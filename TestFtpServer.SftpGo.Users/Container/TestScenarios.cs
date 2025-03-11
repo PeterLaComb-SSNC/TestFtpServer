@@ -23,6 +23,7 @@ public static class TestScenario
     }
 
     public static async Task Load(
+        ILogger logger,
         string path,
         CancellationToken cancellationToken = default
     )
@@ -32,6 +33,10 @@ public static class TestScenario
             var dictionary = await JsonSerializer.DeserializeAsync<Dictionary<string, User>>(File.OpenRead(path), cancellationToken: cancellationToken);
             if (dictionary is { })
             {
+                foreach (var (key, value) in dictionary)
+                {
+                    logger.LogInformation("{@userName} added with {@config}", key, value);
+                }
                 _loaded = dictionary.ToFrozenDictionary();
             }
         }

@@ -19,11 +19,13 @@ public static class SftpUsersResourceExtensions
     /// <summary>
     /// Adds users to the SFTPGo server via the `SFTPGO_DATA_PROVIDER__PRE_LOGIN_HOOK`
     /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="name"></param>
-    /// <param name="scenarioFilePath"></param>
-    /// <param name="httpPort"></param>
-    /// <param name="version"></param>
+    /// <param name="builder">The application builder.</param>
+    /// <param name="name">Optional: Name for the Aspire resource. Defaults to `SftpUsers`.</param>
+    /// <param name="scenarioFilePath">Optional: Path to a JSON file with the users to load.</param>
+    /// <param name="httpPort">Port on which the API will be exposed</param>
+    /// <param name="version">Optional: Use to specify which version of the 
+    ///  <inheritdoc cref="SftpUsersContainerImageTags.Image"/> container image will be used.
+    ///  Defaults to <inheritdoc cref="SftpUsersContainerImageTags.Tag"/>.</param>
     /// <returns></returns>
     public static IResourceBuilder<SftpServerResource> WithUserRepository(
         this IResourceBuilder<SftpServerResource> builder,
@@ -43,13 +45,15 @@ public static class SftpUsersResourceExtensions
             .WithImage(SftpUsersContainerImageTags.Image)
             .WithImageRegistry(SftpUsersContainerImageTags.Registry)
             .WithImageTag(version ?? SftpUsersContainerImageTags.Tag)
-            .WithEnvironment(env =>
-            {
-                if (loadCustomScenario)
+            .WithEnvironment(
+                env =>
                 {
-                    env.EnvironmentVariables["SFTPGO_USERS_LIST"] = MountPath;
+                    if (loadCustomScenario)
+                    {
+                        env.EnvironmentVariables["SFTPGO_USERS_LIST"] = MountPath;
+                    }
                 }
-            })
+            )
             .WithHttpEndpoint(
                 targetPort: 8080,
                 port: httpPort,

@@ -7,7 +7,8 @@ using TestFtpServer.SftpGo.Users.Container.Models;
 namespace TestFtpServer.SftpGo.Users;
 #pragma warning restore IDE0130 // Namespace does not match folder structure
 
-#pragma warning disable CS8892 // Namespace does not match folder structure
+#pragma warning disable CS8892 // Method will not be used as an entry point because a synchronous entry point 'method' was found.
+#if BUILDING_CONTAINER
 internal partial class Program
 {
     private static async Task Main(string[] args)
@@ -15,13 +16,17 @@ internal partial class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.AddServiceDefaults();
+        var app = builder.Build();
+        var logger = app.Services.GetRequiredService<ILogger<Program>>();
         var scenario = builder.Configuration.GetValue("SFTPGO_USERS_LIST", "");
         if (string.IsNullOrEmpty(scenario) is false)
         {
-            await TestScenario.Load(scenario);
+            logger.LogInformation("Loading {scenarioFile}", scenario);
+            await TestScenario.Load(logger, scenario);
+        } else 
+        {
+            logger.LogInformation("Using default users");
         }
-        var app = builder.Build();
-
         app.MapPost(
             "/",
             (
@@ -46,4 +51,5 @@ internal partial class Program
         app.Run();
     }
 }
-#pragma warning restore CS8892 // Namespace does not match folder structure
+#endif
+#pragma warning disable CS8892 // Method will not be used as an entry point because a synchronous entry point 'method' was found.

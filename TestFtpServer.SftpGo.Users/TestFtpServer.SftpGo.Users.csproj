@@ -31,11 +31,13 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(BuildWhat)'=='Aspire'">
+        <DefineConstants>BUILDING_ASPIRE</DefineConstants>
         <BuildAspire>true</BuildAspire>
         <BuildContainer>false</BuildContainer>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(BuildWhat)'=='Container'">
+        <DefineConstants>BUILDING_CONTAINER</DefineConstants>
         <BuildAspire>false</BuildAspire>
         <BuildContainer>true</BuildContainer>
     </PropertyGroup>
@@ -45,6 +47,7 @@
     </ItemGroup>
 
     <PropertyGroup Condition="'$(BuildWhat)'==''">
+        <DefineConstants>BUILDING_CONTAINER</DefineConstants>
         <BuildAspire>true</BuildAspire>
         <BuildContainer>true</BuildContainer>
     </PropertyGroup>

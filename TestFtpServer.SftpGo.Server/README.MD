@@ -11,6 +11,23 @@ Please do not run this directly in a public-facing location - it is not secure b
 No configuration is required to get started. The UI link from the Aspire
 dashboard will allow you to create an administrator login and you can go from there.
 
+    ```csharp
+    var builder = DistributedApplication.CreateBuilder(args);
+    
+    var sftpAdminUser = builder.AddParameter("sftpAdminUser");
+    var sftpAdminPassword = builder.AddParameter("sftpAdminPassword", true);
+    
+    builder
+        .AddSftpServer(
+            adminUser: sftpAdminUser,
+            adminPassword: sftpAdminPassword
+        )
+        ;
+    
+    builder.Build().Run();
+    
+    ```
+
 ### Optional Configuration
 
 - Create a default Admin User:

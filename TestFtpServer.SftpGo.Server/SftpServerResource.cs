@@ -10,6 +10,13 @@ public sealed class SftpServerResource(
     string name
 ) : ContainerResource(name)
 {
-     internal const string HttpEndpointName = "http";
-     internal const string SftpEndpointName = "sftp";
+    /// <summary>
+    /// Name of the endpoint where the UI is exposed.
+    /// </summary>
+     public const string HttpEndpointName = "http";
+
+     /// <summary>
+     /// Name of the endpoint where the SFTP server is exposed.
+     /// </summary>
+     public const string SftpEndpointName = "sftp";
 }

@@ -17,7 +17,7 @@ public static class SftpServerResourceExtensions
     /// <param name="builder">The application builder.</param>
     /// <param name="name">Optional: Defaults to `SftpServer`.</param>
     /// <param name="httpPort">Optional: Used to overide the port where the UI is presented via HTTP(s).</param>
-    /// <param name="sftpPort">Optional: Used to overide the port where the sFTP Server is exposed.</param>
+    /// <param name="sftpPort">Optional: Used to overide the port where the SFTP Server is exposed.</param>
     /// <param name="adminUser">Optional: 'admin' will be used when missing.</param>
     /// <param name="adminPassword">Optional: If provided, the default admin will be created.</param>
     /// <param name="version">Optional: Use to specify which version of the 
