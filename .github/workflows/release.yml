@@ -79,11 +79,7 @@ jobs:
         context: ./TestFtpServer.SftpGo.Users
         file: ./TestFtpServer.SftpGo.Users/Dockerfile
         push: true
-        tags: |
-          - ${{ steps.get-release-version.outputs.version }}
-          - latest
-#          - peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}
-#          - peterlacombssnc/sftpgousers:latest
+        tags: ['peterlacombssnc/sftpgousers:latest', 'peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}']
         labels: ${{ steps.meta.outputs.labels }}
 
     # - name: Generate artifact attestation
