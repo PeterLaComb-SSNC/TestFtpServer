@@ -32,6 +32,7 @@ public static class SftpUsersResourceExtensions
         string name = "SftpUsers",
         IResourceBuilder<ParameterResource>? scenarioFilePath = null,
         int? httpPort = null,
+        string? registry = null,
         string? version = null
     )
     {
@@ -43,7 +44,7 @@ public static class SftpUsersResourceExtensions
         var result = builder.ApplicationBuilder.AddResource(resource)
             .WithParentRelationship(builder)
             .WithImage(SftpUsersContainerImageTags.Image)
-            .WithImageRegistry(SftpUsersContainerImageTags.Registry)
+            .WithImageRegistry(registry ?? SftpUsersContainerImageTags.Registry)
             .WithImageTag(version ?? SftpUsersContainerImageTags.Tag)
             .WithEnvironment(
                 env =>
