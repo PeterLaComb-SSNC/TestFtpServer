@@ -79,7 +79,7 @@ jobs:
         context: ./TestFtpServer.SftpGo.Users
         file: ./TestFtpServer.SftpGo.Users/Dockerfile
         push: true
-        tags:
+        tags: |
           - peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}
           - peterlacombssnc/sftpgousers:latest
         labels: ${{ steps.meta.outputs.labels }}
