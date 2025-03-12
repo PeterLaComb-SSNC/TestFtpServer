@@ -70,7 +70,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
       with:
-        images: peterlacombssnc/testsftpserver
+        images: peterlacombssnc/sftpgousers
 
     - name: Build and push Docker image
       id: push
@@ -79,15 +79,18 @@ jobs:
         context: ./TestFtpServer.SftpGo.Users
         file: ./TestFtpServer.SftpGo.Users/Dockerfile
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
+        tags:
+          - ${{ steps.meta.outputs.tags }}
+          - peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}
+          - peterlacombssnc/sftpgousers:latest
         labels: ${{ steps.meta.outputs.labels }}
 
-    - name: Generate artifact attestation
-      uses: actions/attest-build-provenance@v2
-      with:
-        subject-name: index.docker.io/peterlacombssnc/testsftpserver
-        subject-digest: ${{ steps.push.outputs.digest }}
-        push-to-registry: true
+    # - name: Generate artifact attestation
+    #   uses: actions/attest-build-provenance@v2
+    #   with:
+    #     subject-name: index.docker.io/peterlacombssnc/sftpgousers
+    #     subject-digest: ${{ steps.push.outputs.digest }}
+    #     push-to-registry: true
 
     - name: Save Artifact
       uses: actions/upload-artifact@v4
