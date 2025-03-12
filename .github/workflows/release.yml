@@ -71,9 +71,6 @@ jobs:
       uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
       with:
         images: peterlacombssnc/sftpgousers
-        tags: |
-          type=semver,pattern=latest
-          type=semver,pattern=${{ steps.get-release-version.outputs.version }}
 
     - name: Build and push Docker image
       id: push
@@ -82,7 +79,7 @@ jobs:
         context: ./TestFtpServer.SftpGo.Users
         file: ./TestFtpServer.SftpGo.Users/Dockerfile
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: ${{ steps.meta.outputs.tags }}, peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}, peterlacombssnc/sftpgousers:latest
         labels: ${{ steps.meta.outputs.labels }}
 
     # - name: Generate artifact attestation
