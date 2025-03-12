@@ -80,8 +80,10 @@ jobs:
         file: ./TestFtpServer.SftpGo.Users/Dockerfile
         push: true
         tags: |
-          - peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}
-          - peterlacombssnc/sftpgousers:latest
+          - ${{ steps.get-release-version.outputs.version }}
+          - latest
+#          - peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}
+#          - peterlacombssnc/sftpgousers:latest
         labels: ${{ steps.meta.outputs.labels }}
 
     # - name: Generate artifact attestation
