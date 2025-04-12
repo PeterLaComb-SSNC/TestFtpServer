@@ -26,7 +26,3 @@ With that installed, you should be able to launch with the default task.
 - Initial Release
   - .NET 8.0 Compatible
   - SFTPGo 2.6
-
-## TODO
-
-- Build Docker image for TestFtpServer.SftpGo.Users in GitHub Actions

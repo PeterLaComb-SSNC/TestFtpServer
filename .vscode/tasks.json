@@ -13,7 +13,7 @@
         },
         {
             "type": "process",
-            "command": "podman",
+            "command": "docker",
             "group": "build",
             "problemMatcher": [],
             "label": "docker: build",

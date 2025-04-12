@@ -12,7 +12,7 @@ builder
         httpPort: 4040
     )
     .WithUserRepository(
-        scenarioFilePath: scenarioFilePath
+        // scenarioFilePath: scenarioFilePath
     )
     ;
 
