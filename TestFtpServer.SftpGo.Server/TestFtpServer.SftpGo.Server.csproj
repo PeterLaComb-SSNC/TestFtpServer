@@ -28,11 +28,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="README.MD" Pack="true" PackagePath="\"/>
+        <None Include="README.MD" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting" Version="9.1.0" />
+        <PackageReference Include="Aspire.Hosting" Version="9.2.0" />
 
         <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25">
             <PrivateAssets>all</PrivateAssets>
