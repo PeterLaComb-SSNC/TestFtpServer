@@ -1,6 +1,6 @@
 # TestFtpServer
 
-This project is a set of .NET Aspire resources for testing SFTP server connections. It makes use of [SFTPGo](https://sftpgo.com/) as the server.
+This project is a set of [.NET Aspire](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview) resources for testing SFTP server connections. It makes use of [SFTPGo](https://sftpgo.com/) as the server.
 
 ## Usage
 
