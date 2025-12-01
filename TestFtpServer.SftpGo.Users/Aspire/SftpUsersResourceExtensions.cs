@@ -27,18 +27,19 @@ public static class SftpUsersResourceExtensions
     ///  <inheritdoc cref="SftpUsersContainerImageTags.Image"/> container image will be used.
     ///  Defaults to <inheritdoc cref="SftpUsersContainerImageTags.Tag"/>.</param>
     /// <returns></returns>
-    public static IResourceBuilder<SftpServerResource> WithUserRepository(
+    public static async Task<IResourceBuilder<SftpServerResource>> WithUserRepository(
         this IResourceBuilder<SftpServerResource> builder,
         string name = "SftpUsers",
         IResourceBuilder<ParameterResource>? scenarioFilePath = null,
         int? httpPort = null,
         string? registry = null,
-        string? version = null
+        string? version = null,
+        CancellationToken cancellationToken = default
     )
     {
         var resource = new SftpUsersResource(name);
 
-        var pathToScenario = GetScenarioPath(scenarioFilePath);
+        var pathToScenario = await GetScenarioPath(scenarioFilePath, cancellationToken);
         var loadCustomScenario = IsCustomScenario(pathToScenario);
 
         var result = builder.ApplicationBuilder.AddResource(resource)
@@ -80,8 +81,13 @@ public static class SftpUsersResourceExtensions
             .WaitFor(result)
             ;
 
-        static string? GetScenarioPath(IResourceBuilder<ParameterResource>? pathToScenarioFile) =>
-            pathToScenarioFile?.Resource.Value;
+        static async ValueTask<string?> GetScenarioPath(
+            IResourceBuilder<ParameterResource>? pathToScenarioFile,
+            CancellationToken cancellationToken
+        ) =>
+            pathToScenarioFile is null
+                ? null
+                : await pathToScenarioFile.Resource.GetValueAsync(cancellationToken);
 
         static bool IsCustomScenario(string? pathToScenarioFile) =>
             string.IsNullOrWhiteSpace(pathToScenarioFile) is false && File.Exists(pathToScenarioFile);

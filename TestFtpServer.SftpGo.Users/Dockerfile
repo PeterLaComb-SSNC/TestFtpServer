@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:483d6f3faa583c93d522c4ca9ee54e08e535cb112dceb252b2fbb7ef94839cc8 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0@sha256:c7445f141c04f1a6b454181bd098dcfa606c61ba0bd213d0a702489e5bd4cd71 AS build
 WORKDIR /App
 
 # Copy everything
@@ -9,7 +9,7 @@ RUN dotnet restore -p:BuildWhat=Container
 RUN dotnet publish -o out -p:BuildWhat=Container
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:e223bd5d93b3042215c7aed59568933631121f7ff4f5268a5092ab54a7e20136
+FROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:7c4246c1c384319346d45b3e24a10a21d5b6fc9b36a04790e1588148ff8055b0
 WORKDIR /App
 COPY --from=build /App/out .
 ENTRYPOINT ["dotnet", "TestFtpServer.SftpGo.Users.dll"]
