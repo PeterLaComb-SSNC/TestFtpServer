@@ -8,5 +8,5 @@ internal static class SftpServerContainerImageTags
     internal const string Image = "drakkan/sftpgo";
 
     /// <summary>2.6.x-plugins</summary>
-    internal const string Tag = "2.4.x-plugins";
+    internal const string Tag = "2.6.x-plugins";
 }
