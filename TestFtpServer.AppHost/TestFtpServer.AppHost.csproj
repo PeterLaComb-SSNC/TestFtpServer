@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Aspire.AppHost.Sdk/13.2.3">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -9,12 +9,6 @@
         <UserSecretsId>d5b9e6f8-d7df-42c0-80d8-12d4b6997ed7</UserSecretsId>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
-
-    <Sdk Name="Aspire.AppHost.Sdk" Version="9.1.0" />
-
-    <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.0" />
-    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\TestFtpServer.SftpGo.Users\TestFtpServer.SftpGo.Users.csproj" IsAspireProjectResource="false" />
