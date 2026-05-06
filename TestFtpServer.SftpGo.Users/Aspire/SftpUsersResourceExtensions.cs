@@ -30,7 +30,7 @@ public static class SftpUsersResourceExtensions
     public static IResourceBuilder<SftpServerResource> WithUserRepository(
         this IResourceBuilder<SftpServerResource> builder,
         string name = "SftpUsers",
-        IResourceBuilder<ParameterResource>? scenarioFilePath = null,
+        string? scenarioFilePath = null,
         int? httpPort = null,
         string? registry = null,
         string? version = null
@@ -38,8 +38,7 @@ public static class SftpUsersResourceExtensions
     {
         var resource = new SftpUsersResource(name);
 
-        var pathToScenario = GetScenarioPath(scenarioFilePath);
-        var loadCustomScenario = IsCustomScenario(pathToScenario);
+        var loadCustomScenario = string.IsNullOrWhiteSpace(scenarioFilePath) is false && File.Exists(scenarioFilePath);
 
         var result = builder.ApplicationBuilder.AddResource(resource)
             .WithParentRelationship(builder)
@@ -64,8 +63,7 @@ public static class SftpUsersResourceExtensions
 
         if (loadCustomScenario)
         {
-            var tempPath = GetTempPath(name, pathToScenario!);
-            result = result.WithBindMount(Path.GetDirectoryName(tempPath)!, MountDirectory, true);
+            result = result.WithContainerFiles(MountDirectory, scenarioFilePath!);
         }
 
         return builder
@@ -79,23 +77,5 @@ public static class SftpUsersResourceExtensions
             .WithReference(result)
             .WaitFor(result)
             ;
-
-        static string? GetScenarioPath(IResourceBuilder<ParameterResource>? pathToScenarioFile) =>
-            pathToScenarioFile?.Resource.Value;
-
-        static bool IsCustomScenario(string? pathToScenarioFile) =>
-            string.IsNullOrWhiteSpace(pathToScenarioFile) is false && File.Exists(pathToScenarioFile);
-
-        static string GetTempPath(
-            string instanceName,
-            string pathToScenarioFile
-        )
-        {
-            var tempFolder = Path.Combine(Path.GetTempPath(), "SftpGoUsers", instanceName, Guid.NewGuid().ToString());
-            var result = Path.Combine(tempFolder, MountFileName);
-            Directory.CreateDirectory(tempFolder);
-            File.Copy(pathToScenarioFile, result, true);
-            return result;
-        }
     }
 }
