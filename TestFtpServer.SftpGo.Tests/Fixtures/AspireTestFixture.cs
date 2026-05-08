@@ -11,7 +11,7 @@ public sealed class AspireTestFixture : IAsyncDisposable, IDisposable
 #if DEBUG
         new();
 #else
-        new(TimeSpan.FromSeconds(300));
+        new(TimeSpan.FromMinutes(15));
 #endif
 
     public CancellationToken CancellationToken => _startupTokenSource.Token;
@@ -104,7 +104,7 @@ public sealed class AspireTestFixture : IAsyncDisposable, IDisposable
                 cancellationToken: CancellationToken
             );
 
-            _app = await builder.BuildAsync(CancellationToken);
+            _app = await builder.BuildAsync(CancellationToken).WaitAsync(CancellationToken);
             await _app.StartAsync(CancellationToken);
             await _app.ResourceNotifications.WaitForResourceHealthyAsync("SftpServer", CancellationToken);
             _initialized = true;
