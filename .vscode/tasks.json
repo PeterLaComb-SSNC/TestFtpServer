@@ -29,7 +29,7 @@
             "label": "docker: build",
             "args": [
                 "build",
-                "TestFtpServer.SftpGo.Users",
+                ".",
                 "-t",
                 "sftpgousers:latest",
             ]

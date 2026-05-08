@@ -54,11 +54,11 @@ jobs:
 
     - name: Aspire - Build
       run: |
-        dotnet build --configuration Release --no-incremental -p:BuildWhat=Aspire -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
+        dotnet build --configuration Release --no-incremental -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
 
     - name: Aspire - Package
       run: |
-        dotnet pack --no-build --no-restore --configuration Release --output ${{ env.NuGetDirectory }} -p:BuildWhat=Aspire -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
+        dotnet pack --no-build --no-restore --configuration Release --output ${{ env.NuGetDirectory }} -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
@@ -76,8 +76,8 @@ jobs:
       id: push
       uses: docker/build-push-action@v6
       with:
-        context: ./TestFtpServer.SftpGo.Users
-        file: ./TestFtpServer.SftpGo.Users/Dockerfile
+        context: ./
+        file: ./Dockerfile
         push: true
         tags: ${{ steps.meta.outputs.tags }}, peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}, peterlacombssnc/sftpgousers:latest
         labels: ${{ steps.meta.outputs.labels }}

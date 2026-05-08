@@ -1,7 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TestFtpServer.SftpGo.Users.Container.Models;
+namespace TestFtpServer.SftpGo.Users.Models;
 
+/// <summary>
+/// Represents a user in the SFTPGo system.
+/// This class is used to manage user information, including authentication
+/// details, permissions, and quotas. It includes properties for user status,
+/// credentials, home directory, and various limits on sessions and data transfer.
+/// The class also tracks usage statistics and timestamps for account activity.
+/// This model is essential for implementing user management functionality in the SFTPGo application.
+/// </summary>
 public record class User
 {
     /// <summary>
@@ -17,8 +25,15 @@ public record class User
     /// <value>status:   * `0` user is disabled, login is not allowed   * `1` user is enabled </value>
     public enum StatusEnum
     {
+        /// <summary>
+        /// Disabled user, login is not allowed
+        /// </summary>
         Disabled = 0,
-        Enabled = 1
+
+        /// <summary>
+        /// Enabled user, login is allowed
+        /// </summary>
+        Enabled = 1,
     }
 
     /// <summary>

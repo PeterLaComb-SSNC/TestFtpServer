@@ -4,16 +4,15 @@
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <BuildWhat>$(BuildWhat)</BuildWhat>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(BuildWhat)'=='Aspire'">
+    <PropertyGroup>
         <IsPackable>true</IsPackable>
         <Description>
             This is a companion package for TestFtpServer.SftpGo.Server that
             uses the `SFTPGO_DATA_PROVIDER__PRE_LOGIN_HOOK` configuration option
             to automatically create users. A default set of users is included,
-            and additional users can be created by referencing a simple JSON file.
+            and additional users can be created by posting to the API.
         </Description>
         <Authors>Peter T. LaComb Jr.</Authors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -30,30 +29,12 @@
         <!-- <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion> -->
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(BuildWhat)'=='Aspire'">
-        <DefineConstants>BUILDING_ASPIRE</DefineConstants>
-        <BuildAspire>true</BuildAspire>
-        <BuildContainer>false</BuildContainer>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(BuildWhat)'=='Container'">
-        <DefineConstants>BUILDING_CONTAINER</DefineConstants>
-        <BuildAspire>false</BuildAspire>
-        <BuildContainer>true</BuildContainer>
-    </PropertyGroup>
-
-    <ItemGroup Condition="'$(BuildWhat)'=='Aspire'">
+    <ItemGroup>
         <None Include="README.MD" Pack="true" PackagePath="\" />
     </ItemGroup>
 
-    <PropertyGroup Condition="'$(BuildWhat)'==''">
-        <DefineConstants>BUILDING_CONTAINER</DefineConstants>
-        <BuildAspire>true</BuildAspire>
-        <BuildContainer>true</BuildContainer>
-    </PropertyGroup>
-
-    <ItemGroup Condition="'$(BuildAspire)'=='True'">
-        <PackageReference Include="Aspire.Hosting" Version="13.2.4" />
+    <ItemGroup>
+        <PackageReference Include="Aspire.Hosting" Version="13.3.0" />
         <ProjectReference Include="..\TestFtpServer.SftpGo.Server\TestFtpServer.SftpGo.Server.csproj" />
 
         <PackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.2">
@@ -62,7 +43,7 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(BuildContainer)'=='True'">
+    <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.7" />
         <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.5.0" />
         <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.5.0" />
@@ -71,20 +52,6 @@
         <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(BuildAspire)'=='False'">
-        <Compile Remove="Aspire\**" />
-        <Content Remove="Aspire\**" />
-        <EmbeddedResource Remove="Aspire\**" />
-        <None Remove="Aspire\**" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(BuildContainer)'=='False'">
-        <Compile Remove="Container\**" />
-        <Content Remove="Container\**" />
-        <EmbeddedResource Remove="Container\**" />
-        <None Remove="Container\**" />
     </ItemGroup>
 
 </Project>

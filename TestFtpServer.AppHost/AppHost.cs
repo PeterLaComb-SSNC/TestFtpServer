@@ -2,7 +2,6 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var sftpAdminUser = builder.AddParameter("sftpAdminUser");
 var sftpAdminPassword = builder.AddParameter("sftpAdminPassword", true);
-var scenarioFilePath = builder.AddParameter("userRepo");
 
 builder
     .AddSftpServer(
@@ -11,9 +10,7 @@ builder
         sftpPort: 2022,
         httpPort: 4040
     )
-    .WithUserRepository(
-        // scenarioFilePath: scenarioFilePath
-    )
+    .WithUserRepository()
     ;
 
 builder.Build().Run();
