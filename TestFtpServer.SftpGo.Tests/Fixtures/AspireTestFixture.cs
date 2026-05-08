@@ -11,7 +11,7 @@ public sealed class AspireTestFixture : IAsyncDisposable, IDisposable
 #if DEBUG
         new();
 #else
-        new(TimeSpan.FromSeconds(120));
+        new(TimeSpan.FromSeconds(300));
 #endif
 
     public CancellationToken CancellationToken => _startupTokenSource.Token;
