@@ -60,12 +60,16 @@ Each entry in this list is the *case-sensitive* user name, with details.
 
 ### Custom Users
 
-1. Create a JSON file (Note: All properties are case-sensitive)
+1. Post as user object to the `/create` endpoint. The result will be an object
+with the userName having a unique suffix appended.
+
+    #### Example request with comments
 
     ```json
     {
         /*
-        "ScenarioName aka UserName": {
+        {
+            "username": "test1",
             "status": (1 = Enabled, 0 = Disabled),
             "password": ("whatever" or null),
             "permissions": {
@@ -94,31 +98,41 @@ Each entry in this list is the *case-sensitive* user name, with details.
             ]
         }
         */
-        "myTest": { "status": "1", "password": "password", "permissions": { "/": ["*"]}}
+        {
+            "username": "test1",
+            "status": "1",
+            "password": "password",
+            "permissions": {
+                "/": ["*"]
+            }
+        }
     }
     ```
 
-2. Pass a ParameterReference to the path of that file in your application
+    #### Example response
+
+    ```json
+    {
+        "userName": "test1-f6b08d28"
+    }
+
+2. Pass the path of that file in your application
 
     ```csharp
     var builder = DistributedApplication.CreateBuilder(args);
     
     var sftpAdminUser = builder.AddParameter("sftpAdminUser");
     var sftpAdminPassword = builder.AddParameter("sftpAdminPassword", true);
-    var scenarioFilePath = builder.AddParameter("userRepo");
     
     builder
         .AddSftpServer(
             adminUser: sftpAdminUser,
             adminPassword: sftpAdminPassword
         )
-        .WithUserRepository(
-            scenarioFilePath: scenarioFilePath
-        )
+        .WithUserRepository()
         ;
     
     builder.Build().Run();
-    
     ```
 
 3. The supplied file will be copied to a temp directory and mounted.

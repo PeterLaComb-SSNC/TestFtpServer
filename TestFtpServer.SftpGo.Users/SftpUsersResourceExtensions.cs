@@ -12,17 +12,13 @@ namespace Aspire.Hosting;
 /// </summary>
 public static class SftpUsersResourceExtensions
 {
-    private const string MountFileName = "SftpGoUsers.json";
-    private const string MountDirectory = "/tmp/SftpGoUsers";
-    private const string MountPath = $"{MountDirectory}/{MountFileName}";
-
     /// <summary>
     /// Adds users to the SFTPGo server via the `SFTPGO_DATA_PROVIDER__PRE_LOGIN_HOOK`
     /// </summary>
     /// <param name="builder">The application builder.</param>
     /// <param name="name">Optional: Name for the Aspire resource. Defaults to `SftpUsers`.</param>
-    /// <param name="scenarioFilePath">Optional: Path to a JSON file with the users to load.</param>
     /// <param name="httpPort">Port on which the API will be exposed</param>
+    /// <param name="registry">Registry for the container image. Defaults to `SftpUsersContainerImageTags.Registry`.</param>
     /// <param name="version">Optional: Use to specify which version of the 
     ///  <inheritdoc cref="SftpUsersContainerImageTags.Image"/> container image will be used.
     ///  Defaults to <inheritdoc cref="SftpUsersContainerImageTags.Tag"/>.</param>
@@ -30,43 +26,51 @@ public static class SftpUsersResourceExtensions
     public static IResourceBuilder<SftpServerResource> WithUserRepository(
         this IResourceBuilder<SftpServerResource> builder,
         string name = "SftpUsers",
-        IResourceBuilder<ParameterResource>? scenarioFilePath = null,
         int? httpPort = null,
         string? registry = null,
         string? version = null
     )
     {
+#if DEBUG
+        var sftpUsers = builder
+            .ApplicationBuilder
+            .AddProject(
+                "TestFtpServer.SftpGo.Users".Replace('.', '-'),
+                "../TestFtpServer.SftpGo.Users/TestFtpServer.SftpGo.Users.csproj"
+            )
+            .WithParentRelationship(builder)
+            .WithExternalHttpEndpoints()
+            .WithHttpEndpoint(
+                port: httpPort,
+                name: SftpUsersResource.HttpEndpointName
+            )
+        ;
+
+        return builder
+            .WithEnvironment(
+                async env =>
+                    env.EnvironmentVariables.Add(
+                        "SFTPGO_DATA_PROVIDER__PRE_LOGIN_HOOK",
+                        sftpUsers.Resource.GetEndpoint("http").Property(EndpointProperty.Url)
+                    )
+            )
+            .WithReference(sftpUsers)
+            .WaitFor(sftpUsers)
+            ;
+
+#else
         var resource = new SftpUsersResource(name);
-
-        var pathToScenario = GetScenarioPath(scenarioFilePath);
-        var loadCustomScenario = IsCustomScenario(pathToScenario);
-
         var result = builder.ApplicationBuilder.AddResource(resource)
             .WithParentRelationship(builder)
             .WithImage(SftpUsersContainerImageTags.Image)
             .WithImageRegistry(registry ?? SftpUsersContainerImageTags.Registry)
             .WithImageTag(version ?? SftpUsersContainerImageTags.Tag)
-            .WithEnvironment(
-                env =>
-                {
-                    if (loadCustomScenario)
-                    {
-                        env.EnvironmentVariables["SFTPGO_USERS_LIST"] = MountPath;
-                    }
-                }
-            )
             .WithHttpEndpoint(
                 targetPort: 8080,
                 port: httpPort,
                 name: SftpUsersResource.HttpEndpointName
             )
             ;
-
-        if (loadCustomScenario)
-        {
-            var tempPath = GetTempPath(name, pathToScenario!);
-            result = result.WithBindMount(Path.GetDirectoryName(tempPath)!, MountDirectory, true);
-        }
 
         return builder
             .WithEnvironment(
@@ -79,23 +83,7 @@ public static class SftpUsersResourceExtensions
             .WithReference(result)
             .WaitFor(result)
             ;
+#endif
 
-        static string? GetScenarioPath(IResourceBuilder<ParameterResource>? pathToScenarioFile) =>
-            pathToScenarioFile?.Resource.Value;
-
-        static bool IsCustomScenario(string? pathToScenarioFile) =>
-            string.IsNullOrWhiteSpace(pathToScenarioFile) is false && File.Exists(pathToScenarioFile);
-
-        static string GetTempPath(
-            string instanceName,
-            string pathToScenarioFile
-        )
-        {
-            var tempFolder = Path.Combine(Path.GetTempPath(), "SftpGoUsers", instanceName, Guid.NewGuid().ToString());
-            var result = Path.Combine(tempFolder, MountFileName);
-            Directory.CreateDirectory(tempFolder);
-            File.Copy(pathToScenarioFile, result, true);
-            return result;
-        }
     }
 }

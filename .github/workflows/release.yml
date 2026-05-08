@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
@@ -45,20 +45,20 @@ jobs:
         mode: "semantic"
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
 
     - name: Run tests
       run: dotnet test --configuration Release
 
     - name: Aspire - Build
       run: |
-        dotnet build --configuration Release --no-incremental -p:BuildWhat=Aspire -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
+        dotnet build --configuration Release --no-incremental -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
 
     - name: Aspire - Package
       run: |
-        dotnet pack --no-build --no-restore --configuration Release --output ${{ env.NuGetDirectory }} -p:BuildWhat=Aspire -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
+        dotnet pack --no-build --no-restore --configuration Release --output ${{ env.NuGetDirectory }} -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
@@ -76,21 +76,21 @@ jobs:
       id: push
       uses: docker/build-push-action@v6
       with:
-        context: ./TestFtpServer.SftpGo.Users
-        file: ./TestFtpServer.SftpGo.Users/Dockerfile
+        context: ./
+        file: ./Dockerfile
         push: true
         tags: ${{ steps.meta.outputs.tags }}, peterlacombssnc/sftpgousers:${{ steps.get-release-version.outputs.version }}, peterlacombssnc/sftpgousers:latest
         labels: ${{ steps.meta.outputs.labels }}
 
     # - name: Generate artifact attestation
-    #   uses: actions/attest-build-provenance@v2
+    #   uses: actions/attest-build-provenance@v4
     #   with:
     #     subject-name: index.docker.io/peterlacombssnc/sftpgousers
     #     subject-digest: ${{ steps.push.outputs.digest }}
     #     push-to-registry: true
 
     - name: Save Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: nuget
         if-no-files-found: error
@@ -104,13 +104,13 @@ jobs:
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       # Download the NuGet package created in the previous job
       - name: Download Artificat
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: nuget
           path: ${{ env.NuGetDirectory }}
@@ -134,16 +134,16 @@ jobs:
     needs: [ validate_nuget ]
     steps:
       # Download the NuGet package created in the previous job
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: nuget
           path: ${{ env.NuGetDirectory }}
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       # Publish all NuGet packages to NuGet.org
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.

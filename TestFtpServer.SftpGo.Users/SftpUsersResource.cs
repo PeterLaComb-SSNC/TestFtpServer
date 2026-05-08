@@ -26,6 +26,6 @@ public sealed class SftpUsersResource(
     /// <inheritdoc />
     public ReferenceExpression ConnectionStringExpression =>
         ReferenceExpression.Create(
-            $"{HttpEndpointName}://{HttpEndpoint.Property(EndpointProperty.Host)}:{HttpEndpoint.Property(EndpointProperty.Port)}"
+            $"{HttpEndpointName}://{HttpEndpoint.Property(EndpointProperty.Host)}:{HttpEndpoint.Property(EndpointProperty.Port)}/"
         );
 }

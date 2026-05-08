@@ -1,14 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 
 using TestFtpServer.SftpGo.Users.Container;
-using TestFtpServer.SftpGo.Users.Container.Models;
+using TestFtpServer.SftpGo.Users.Models;
 
-#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace TestFtpServer.SftpGo.Users;
-#pragma warning restore IDE0130 // Namespace does not match folder structure
 
-#pragma warning disable CS8892 // Method will not be used as an entry point because a synchronous entry point 'method' was found.
-#if BUILDING_CONTAINER
 internal partial class Program
 {
     private static async Task Main(string[] args)
@@ -17,23 +13,29 @@ internal partial class Program
 
         builder.AddServiceDefaults();
         var app = builder.Build();
-        var logger = app.Services.GetRequiredService<ILogger<Program>>();
-        var scenario = builder.Configuration.GetValue("SFTPGO_USERS_LIST", "");
-        if (string.IsNullOrEmpty(scenario) is false)
-        {
-            logger.LogInformation("Loading {scenarioFile}", scenario);
-            await TestScenario.Load(logger, scenario);
-        } else 
-        {
-            logger.LogInformation("Using default users");
-        }
+        app.MapPost(
+            "/create",
+            (
+                [FromBody] User requestedUser,
+                ILogger<Program> logger
+            ) =>
+            {
+                var userName = TestScenario.CreateUser(requestedUser);
+                logger.LogInformation(
+                    "Created userName:'{userName}' for requestedUser:{@requestedUser} ",
+                    userName,
+                    requestedUser
+                );
+                return Results.Ok(new { userName });
+            }
+        );
         app.MapPost(
             "/",
             (
                 [FromQuery] string? login_method,
                 [FromQuery] string? protocol,
                 [FromBody] User requestedUser,
-                ILogger<User> logger
+                ILogger<Program> logger
             ) =>
             {
                 var result = TestScenario.GetUser(requestedUser.Username);
@@ -44,12 +46,9 @@ internal partial class Program
                     requestedUser,
                     result
                 );
-                return result;
+                return Results.Ok(result);
             }
         );
-
         app.Run();
     }
 }
-#endif
-#pragma warning disable CS8892 // Method will not be used as an entry point because a synchronous entry point 'method' was found.

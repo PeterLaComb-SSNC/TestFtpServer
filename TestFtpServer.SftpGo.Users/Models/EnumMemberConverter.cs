@@ -2,9 +2,9 @@ using System.Runtime.Serialization;
 using System.Collections.Frozen;
 using System.Reflection;
 
-namespace TestFtpServer.SftpGo.Users.Container.Models;
+namespace TestFtpServer.SftpGo.Users.Models;
 
-public class EnumMemberConverter<TEnum> : JsonConverter<TEnum>
+internal class EnumMemberConverter<TEnum> : JsonConverter<TEnum>
     where TEnum : struct, Enum
 {
     private static readonly FrozenDictionary<TEnum, string> _toString;

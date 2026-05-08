@@ -1,13 +1,14 @@
+using System.Collections.Concurrent;
 using System.Collections.Frozen;
 
-using TestFtpServer.SftpGo.Users.Container.Models;
+using TestFtpServer.SftpGo.Users.Models;
 
 namespace TestFtpServer.SftpGo.Users.Container;
 
-public static class TestScenario
+internal static class TestScenario
 {
     private static readonly FrozenDictionary<string, User> _default;
-    private static FrozenDictionary<string, User>? _loaded;
+    private static readonly ConcurrentDictionary<string, User> _loaded = new();
 
     static TestScenario()
     {
@@ -22,34 +23,35 @@ public static class TestScenario
         _default = setup.ToFrozenDictionary();
     }
 
-    public static async Task Load(
-        ILogger logger,
-        string path,
-        CancellationToken cancellationToken = default
-    )
-    {
-        if (Path.Exists(path))
-        {
-            var dictionary = await JsonSerializer.DeserializeAsync<Dictionary<string, User>>(File.OpenRead(path), cancellationToken: cancellationToken);
-            if (dictionary is { })
-            {
-                foreach (var (key, value) in dictionary)
-                {
-                    logger.LogInformation("{@userName} added with {@config}", key, value);
-                }
-                _loaded = dictionary.ToFrozenDictionary();
-            }
-        }
-    }
-
     public static User GetUser(string username)
     {
-        var result = (_loaded ?? _default).TryGetValue(username, out var user)
+        var result = _default.TryGetValue(username, out var user)
             ? user
-            : new();
+            : _loaded.TryGetValue(username, out user)
+                ? user
+                : new User();
 
         result.Username = username;
         return result;
+    }
+
+    public static string CreateUser(User requestedUser)
+    {
+        static string GenerateUserName(string requestedName) => $"{requestedName}-{Guid.NewGuid().ToString().Replace("-", "")[0..8]}";
+
+        var user = SetupUser(
+            requestedUser.Status == User.StatusEnum.Enabled,
+            requestedUser.Password,
+            requestedUser.PublicKeys?.ToArray(),
+            requestedUser.Permissions
+        );
+
+        var userName = GenerateUserName(requestedUser.Username);
+        while (_loaded.TryAdd(userName, user) is false)
+        {
+            userName = GenerateUserName(requestedUser.Username);
+        }
+        return userName;
     }
 
     private static User SetupUser(

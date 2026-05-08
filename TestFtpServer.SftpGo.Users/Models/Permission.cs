@@ -1,7 +1,14 @@
 using System.Runtime.Serialization;
 
-namespace TestFtpServer.SftpGo.Users.Container.Models;
+namespace TestFtpServer.SftpGo.Users.Models;
 
+/// <summary>
+/// Represents the permissions for a user in the SftpGo system.
+/// Each permission corresponds to a specific action that a user can perform,
+/// such as listing files, downloading, uploading, and managing directories.
+/// The permissions are defined as an enumeration with associated string values
+/// for JSON serialization and deserialization.
+/// </summary>
 [JsonConverter(typeof(EnumMemberConverter<Permission>))]
 public enum Permission
 {
