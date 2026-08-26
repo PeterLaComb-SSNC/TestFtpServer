@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:10.0@sha256:8a90a473da5205a16979de99d2fc20975e922c68304f5c79d564e666dc3982fc AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0@sha256:e1ffd2a92ae84c1291bc1b6887501f8af98e6331e7af6d4c8d37168c5e87a64c AS build
 WORKDIR /App
 
 # Copy project
@@ -21,7 +21,7 @@ RUN dotnet build -c Release --no-restore --no-logo
 RUN dotnet publish ./TestFtpServer.SftpGo.Users/TestFtpServer.SftpGo.Users.csproj -o out -c Release --no-restore --no-logo --no-build
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:55e37c7795bfaf6b9cc5d77c155811d9569f529d86e20647704bc1d7dd9741d4
+FROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:a4556ed033fa96f984bb7a8d348851cb2d36b1281dd2420070045f664fbb5f94
 WORKDIR /App
 COPY --from=build /App/out .
 ENTRYPOINT ["dotnet", "TestFtpServer.SftpGo.Users.dll"]
