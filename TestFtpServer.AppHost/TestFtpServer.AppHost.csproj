@@ -8,7 +8,7 @@
         <IsAspireHost>true</IsAspireHost>
         <UserSecretsId>d5b9e6f8-d7df-42c0-80d8-12d4b6997ed7</UserSecretsId>
         <LangVersion>latest</LangVersion>
-    <AspireUseCliBundle>true</AspireUseCliBundle>
+        <AspireUseCliBundle>true</AspireUseCliBundle>
     </PropertyGroup>
 
     <ItemGroup>
