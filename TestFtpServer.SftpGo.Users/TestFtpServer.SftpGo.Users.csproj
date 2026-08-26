@@ -34,24 +34,24 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting" Version="13.3.0" />
+        <PackageReference Include="Aspire.Hosting" Version="13.5.3" />
         <ProjectReference Include="..\TestFtpServer.SftpGo.Server\TestFtpServer.SftpGo.Server.csproj" />
 
-        <PackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.2">
+        <PackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.7" />
-        <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.5.0" />
-        <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.5.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
-        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.3" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+        <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.9.0" />
+        <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.9.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.18.0" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.18.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.18.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.18.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.18.0" />
     </ItemGroup>
 
 </Project>
