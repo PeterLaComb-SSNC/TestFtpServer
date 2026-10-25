@@ -76,6 +76,7 @@ public sealed class AspireTestFixture : IAsyncDisposable, IDisposable
             }
 
             Environment.SetEnvironmentVariable("ASPIRE_ALLOW_UNSECURED_TRANSPORT", "true");
+            Environment.SetEnvironmentVariable("SFTPGO_DEFAULT_ADMIN_PASSWORD", Guid.NewGuid().ToString());
 
             var userList = Path.GetTempFileName();
             await File.WriteAllTextAsync(
