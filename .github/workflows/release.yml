@@ -47,7 +47,8 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v6
       with:
-        dotnet-version: '10.0.x'
+        dotnet-version: latest
+        dotnet-channel: LTS
 
     - name: Run tests
       run: dotnet test --configuration Release
@@ -106,7 +107,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: latest
+          dotnet-channel: LTS
 
       # Download the NuGet package created in the previous job
       - name: Download Artificat
@@ -143,7 +145,8 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: latest
+          dotnet-channel: LTS
 
       # Publish all NuGet packages to NuGet.org
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
