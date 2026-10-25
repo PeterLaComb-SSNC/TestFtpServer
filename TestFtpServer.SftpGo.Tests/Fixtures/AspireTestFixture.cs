@@ -105,7 +105,7 @@ public sealed class AspireTestFixture : IAsyncDisposable, IDisposable
                 cancellationToken: CancellationToken
             );
 
-            builder.CreateResourceBuilder<ProjectResource>("SftpServer")
+            builder.CreateResourceBuilder<ContainerResource>("SftpServer")
                 .WithEnvironment("SFTPGO_DEFAULT_ADMIN_PASSWORD", Guid.NewGuid().ToString());
 
             _app = await builder.BuildAsync(CancellationToken).WaitAsync(CancellationToken);
