@@ -26,12 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
 
     - name: Determine Version
-      uses: wemogy/get-release-version-action@v4.3.2
+      uses: wemogy/get-release-version-action@v4.3.5
       id: get-release-version
       with:
         prefix: "v"
@@ -47,7 +47,8 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '10.0.x'
+        dotnet-version: latest
+        dotnet-channel: LTS
 
     - name: Run tests
       run: dotnet test --configuration Release
@@ -61,20 +62,20 @@ jobs:
         dotnet pack --no-build --no-restore --configuration Release --output ${{ env.NuGetDirectory }} -p:Version="${{ steps.get-release-version.outputs.version }}" -p:InformationalVersion="${{ steps.get-release-version.outputs.version }}"
 
     - name: Log in to Docker Hub
-      uses: docker/login-action@v3
+      uses: docker/login-action@v4
       with:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_TOKEN }}
 
     - name: Extract metadata (tags, labels) for Docker
       id: meta
-      uses: docker/metadata-action@v5
+      uses: docker/metadata-action@v6
       with:
         images: peterlacombssnc/sftpgousers
 
     - name: Build and push Docker image
       id: push
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         context: ./
         file: ./Dockerfile
@@ -106,7 +107,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: latest
+          dotnet-channel: LTS
 
       # Download the NuGet package created in the previous job
       - name: Download Artificat
@@ -143,7 +145,8 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: latest
+          dotnet-channel: LTS
 
       # Publish all NuGet packages to NuGet.org
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.

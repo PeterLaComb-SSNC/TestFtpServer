@@ -42,7 +42,7 @@ public sealed class IntegrationTests(
     public async Task CreateUser_WithSimplePassword_CanLogin()
     {
         var app = await _testFixture.GetApp();
-        using var httpClient = app.CreateHttpClient("TestFtpServer-SftpGo-Users", "http");
+        using var httpClient = app.CreateHttpClient("SftpUsers", "http");
 
         var newUser = new
         {

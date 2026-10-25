@@ -23,6 +23,9 @@ With that installed, you should be able to launch with the default task.
 
 ## Release Notes
 
-- Initial Release
+- v1.0 Initial Release
   - .NET 8.0 Compatible
   - SFTPGo 2.6
+- v2.0 2026-10-25
+  - .NET 10
+  - Aspire 13.6.4
