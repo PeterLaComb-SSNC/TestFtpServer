@@ -1,4 +1,5 @@
 using Aspire.Hosting;
+using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Testing;
 
 [assembly: AssemblyFixture(typeof(TestFtpServer.SftpGo.Tests.Fixtures.AspireTestFixture))]
@@ -94,7 +95,6 @@ public sealed class AspireTestFixture : IAsyncDisposable, IDisposable
                     [
                         // "DcpPublisher:RandomizePorts=false",
                         $"SftpServer:UserListFile={userList}",
-                        $"SFTPGO_DEFAULT_ADMIN_PASSWORD={Guid.NewGuid()}",
                     ],
                 configureBuilder:
                     (appOptions, hostSettings) =>
@@ -104,6 +104,9 @@ public sealed class AspireTestFixture : IAsyncDisposable, IDisposable
                     },
                 cancellationToken: CancellationToken
             );
+
+            builder.CreateResourceBuilder<ProjectResource>("SftpServer")
+                .WithEnvironment("SFTPGO_DEFAULT_ADMIN_PASSWORD", Guid.NewGuid().ToString());
 
             _app = await builder.BuildAsync(CancellationToken).WaitAsync(CancellationToken);
             await _app.StartAsync(CancellationToken);
