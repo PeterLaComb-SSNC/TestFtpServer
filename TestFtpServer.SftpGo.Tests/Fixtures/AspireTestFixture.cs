@@ -111,6 +111,7 @@ public sealed class AspireTestFixture : IAsyncDisposable, IDisposable
             _app = await builder.BuildAsync(CancellationToken).WaitAsync(CancellationToken);
             await _app.StartAsync(CancellationToken);
             await _app.ResourceNotifications.WaitForResourceHealthyAsync("SftpServer", CancellationToken);
+            await _app.ResourceNotifications.WaitForResourceHealthyAsync("SftpUsers", CancellationToken);
             _initialized = true;
             return _app;
         }

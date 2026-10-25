@@ -35,7 +35,7 @@ public static class SftpUsersResourceExtensions
         var sftpUsers = builder
             .ApplicationBuilder
             .AddProject(
-                "TestFtpServer.SftpGo.Users".Replace('.', '-'),
+                name,
                 "../TestFtpServer.SftpGo.Users/TestFtpServer.SftpGo.Users.csproj"
             )
             .WithParentRelationship(builder)
